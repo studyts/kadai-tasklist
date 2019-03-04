@@ -24,5 +24,6 @@
             </tbody>
         </table>
     @endif
-
+    {!! link_to_route('tasks.create','新規タスクの投稿', null, ['
+        class' => 'btn btn-success'])  !!}
 @endsection
