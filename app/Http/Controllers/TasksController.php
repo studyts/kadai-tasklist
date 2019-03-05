@@ -83,12 +83,25 @@ class TasksController extends Controller
      */
     public function show($id)
     {
+        $task = \App\Task::find($id);
+
+        if (\Auth::id() === $task->user_id) {
+            return view('tasks.show', [
+                'task' => $task,
+            ]);
+        }
+
+        return redirect('/');
+    }
+    /*
+    {
         $task = Task::find($id);
         
         return view('tasks.show', [
             'task' => $task,
         ]);
     }
+    */
 
     /**
      * Show the form for editing the specified resource.
@@ -98,12 +111,25 @@ class TasksController extends Controller
      */
     public function edit($id)
     {
+        $task = \App\Task::find($id);
+
+        if (\Auth::id() === $task->user_id) {
+            return view('tasks.edit', [
+            'task' => $task,
+            ]);
+        }
+
+        return redirect('/');
+    }
+    /*
+    {
         $task = Task::find($id);
 
         return view('tasks.edit', [
             'task' => $task,
         ]);
     }
+    */
 
     /**
      * Update the specified resource in storage.
@@ -120,12 +146,30 @@ class TasksController extends Controller
         ]);
 
         $task = Task::find($id);
+
+        if (\Auth::id() === $task->user_id) {
+            $task->status = $request->status;
+            $task->content = $request->content;
+            $task->save();
+        }
+
+        return redirect('/');
+    }
+    /*
+    {
+        $this->validate($request, [
+            'status' => 'required|max:10',
+            'content' => 'required|max:191',
+        ]);
+
+        $task = Task::find($id);
         $task->status = $request->status;
         $task->content = $request->content;
         $task->save();
 
         return redirect('/');
     }
+    */
 
     /**
      * Remove the specified resource from storage.
